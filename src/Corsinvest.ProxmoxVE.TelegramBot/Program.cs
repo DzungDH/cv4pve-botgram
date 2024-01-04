@@ -23,7 +23,7 @@ class Program
 
         var optChatsId = app.AddOption("--chatsId", "Telegram Chats Id valid for communication (comma separated)");
 
-        app.SetHandler(() =>
+        app.SetHandler(async () =>
         {
             var chatsId = new List<long>();
             foreach (var chatId in (optChatsId.GetValue() + "").Split(","))
@@ -40,12 +40,7 @@ class Program
                                             Console.Out);
             botManager.StartReceiving();
 
-            Console.ReadLine();
-
-            try { botManager.StopReceiving(); }
-            catch { }
-
-            Console.Out.WriteLine("End application");
+            await Task.Delay(-1);
         });
 
         await app.ExecuteApp(args);
