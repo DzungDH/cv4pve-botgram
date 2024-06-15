@@ -9,6 +9,7 @@ using System.CommandLine;
 using Corsinvest.ProxmoxVE.Api.Shell.Helpers;
 using Corsinvest.ProxmoxVE.TelegramBot.Api;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 var app = ConsoleHelper.CreateApp("cv4pve-botgram", "Telegram bot for Proxmox VE");
 var loggerFactory = ConsoleHelper.CreateLoggerFactory<Program>(app.GetLogLevelFromDebug());
@@ -18,7 +19,7 @@ optChatToken.IsRequired = true;
 
 var optChatsId = app.AddOption<string>("--chatsId", "Telegram Chats Id valid for communication (comma separated)");
 
-app.SetHandler((host, apiToken, username, validateCertificate, chatToken, chatsId) =>
+app.SetHandler(async(host, apiToken, username, validateCertificate, chatToken, chatsId) =>
 {
     var chatIds = new List<long>();
     foreach (var chatId in (chatsId + "").Split(","))
@@ -36,13 +37,7 @@ app.SetHandler((host, apiToken, username, validateCertificate, chatToken, chatsI
                                     chatIds.ToArray(),
                                     Console.Out);
     botManager.StartReceiving();
-
-    Console.ReadLine();
-
-    try { botManager.StopReceiving(); }
-    catch { }
-
-    Console.Out.WriteLine("End application");
+    await Task.Delay(-1);
 },
  app.GetHostOption(),
  app.GetApiTokenOption(),

@@ -41,6 +41,12 @@ For licensing details please visit [LICENSE.md](LICENSE.md)
 
 This software is part of a suite of tools called cv4pve-tools. If you want commercial support, visit the [site](https://www.cv4pve-tools.com)
 
+## Build
+
+```
+dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true --self-contained #/p:EnableCompressionInSingleFile=true
+```
+
 ## Introduction
 
 Telegram for Proxmox VE.
